@@ -384,7 +384,7 @@ var pizzaElementGenerator = function(i) {
   pizzaContainer.appendChild(pizzaImageContainer);
 
 
-  pizzaDescriptionContainer.style.width="65%"; // ONE!
+  pizzaDescriptionContainer.style.width="65%";
 
   pizzaName = document.createElement("h4");
   pizzaName.innerHTML = randomName();
@@ -449,7 +449,7 @@ var resizePizzas = function(size) {
     return dx;
   }
 
-  // Iterates through pizza elements on the page and changes their widths // TWO!
+  // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
     // (JC) getElementsByClassName more efficient than querySelector
     for (var i = 0; i < document.getElementsByClassName("randomPizzaContainer").length; i++) {
@@ -465,7 +465,7 @@ var resizePizzas = function(size) {
   window.performance.mark("mark_end_resize");
   window.performance.measure("measure_pizza_resize", "mark_start_resize", "mark_end_resize");
   var timeToResize = window.performance.getEntriesByName("measure_pizza_resize");
-  console.log("Time to resize pizzas: " + timeToResize[timeToResize.length-1].duration + "ms"); // THREE!
+  console.log("Time to resize pizzas: " + timeToResize[timeToResize.length-1].duration + "ms");
 };
 
 window.performance.mark("mark_start_generating"); // collect timing data
@@ -505,7 +505,7 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   // (JC) getElementsByClassName more efficient than querySelector
-  var items = document.getElementsByClassName('mover'); // FIVE!
+  var items = document.getElementsByClassName('mover');
   // (JC) docbody calculation needed once, so put outside of for loop
   var docbody = document.body.scrollTop / 1250;
   // (JC) Created an array to put phase variables in
