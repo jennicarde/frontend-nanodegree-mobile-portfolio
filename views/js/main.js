@@ -452,10 +452,12 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
     // (JC) getElementsByClassName more efficient than querySelector
-    for (var i = 0; i < document.getElementsByClassName("randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.getElementsByClassName("randomPizzaContainer")[i], size);
-      var newwidth = (document.getElementsByClassName("randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
+    // (JC) Pulled variables out of loop per project feedback to minimize access to DOM
+      var pizzaContainer = document.getElementsByClassName("randomPizzaContainer");
+      var dx = determineDx(pizzaContainer[0], size);
+      var newwidth = (pizzaContainer[0].offsetWidth + dx) + 'px';
+      for (var i = 0; i < pizzaContainer.length; i++) {
+        pizzaContainer[i].style.width = newwidth;
     }
   }
 
@@ -471,8 +473,9 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
-for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
+// (JC) Pulled variable out of loop per project feedback
+var pizzasDiv = document.getElementById("randomPizzas");
+  for (var i = 2; i < 100; i++) {
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -510,16 +513,21 @@ function updatePositions() {
   var docbody = document.body.scrollTop / 1250;
   // (JC) Created an array to put phase variables in
   // (JC) Store 5 numbers and change the position of our elements
-  phaseArray = [];
+  // (JC) Updated per project feedback: "Due to the mod 5 operator, there are
+  // only 5 different values for the phase. Whichever the value of i, i%5 is
+  // always a value from 0 to 4. So, calculating phase values inside the main
+  // loop is a waste of resources. IMO, the best option is making two loops, one
+  // for the phases (0 to 4) and the other for the positions (0 to items.length)."
+  var phaseArray = [];
   for (var i = 0; i < 5; i++) {
     // (JC) Only paint the moving pizzas and not the whole screen as we scroll
     // (JC) Tell browser to put in an indiviudal composite layer (CSS hack, backface-visibility: hidden;)
-    phaseArray.push(Math.sin((docbody) + (i % 5)));
+    phaseArray.push(Math.sin((docbody) + i) * 100);
     // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
   // (JC) Access phase element in the phaseArray
-  for (var j = 0; j < items.length; j++) {
-    items[j].style.left = items[j].basicLeft + 100 * phaseArray[(j % 5)] + 'px';
+  for (var j = 0; max < items.length; j < max; j++) {
+    items[j].style.left = items[j].basicLeft + phaseArray[j % 5] + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -541,17 +549,18 @@ document.addEventListener('DOMContentLoaded', function() {
   var s = 256;
 
   // (JC) Don't need 200 pizzas animated - set to window size
-  var pizzaNum = (window.innerHeight / 75) + (window.innerWidth / 75);
+  var pizzaNum = (window.innerHeight / s) * cols;
+  // (JC) getElementById more efficient than querySelector
+  var movingPizzas = document.getElementById("movingPizzas1");
   for (var i = 0; i < pizzaNum; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
-    elem.src = "images/pizza.png";
+    elem.src = "images/pizza-320.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    // (JC) getElementById more efficient than querySelector
-    document.getElementById("movingPizzas1").appendChild(elem);
+    movingPizzas.appendChild(elem);
   }
   updatePositions();
 });
