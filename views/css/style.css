@@ -33,6 +33,13 @@ form {
   position: fixed;
   width: 256px;
   z-index: -1;
+  /* (JC) CSS hack to tell browser to put in an indiviudal composite layer */
+  /*-webkit-backface-visibility: hidden;
+  backface-visibility: hidden;*/
+  /* (JC) tell the browser to expect visual changes, pull element on new composite layer */
+  will-change: transform;
+  /* (JC) will-change for older browsers and Safari, called null transform hack */
+  /*transform: translateZ(0);*/
 }
 
 .randomPizzaContainer {
