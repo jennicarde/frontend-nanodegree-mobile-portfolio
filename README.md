@@ -25,8 +25,8 @@ $> ./ngrok http 8080
 4. Set up Grunt workflow to minify, resize and compress text and image files.
 
 #### Results
-95/100 for Mobile
-96/100 for Desktop
+93/100 for Mobile
+95/100 for Desktop
 
 ## Part 2: Pizza Project
 

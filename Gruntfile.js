@@ -21,6 +21,9 @@ module.exports = function(grunt) {
         myTask: {
           options: {
             sizes: [{
+              width: 160,
+              quality: 50,
+            },{
               width: 320,
             },{
               width: 640,
@@ -34,6 +37,7 @@ module.exports = function(grunt) {
             cwd: 'img-src/',
             dest: 'img/'
           }],
+          // When I ran this, the one above didn't run until I commented out the second one below.
           files: [{
             expand: true,
             src: ['*.{gif,jpg,png}'],
@@ -46,7 +50,7 @@ module.exports = function(grunt) {
     imagemin: {
         dynamic: {
             options: {
-              optimizationLevel: 7
+              optimizationLevel: 5
             },
             files: [{
                 expand: true,
@@ -54,6 +58,7 @@ module.exports = function(grunt) {
                 src: ["**/*.{png,jpg,gif}"],
                 dest: "img/"
             }],
+            // Same again, when I ran this, the one above didn't run until I commented out the second one below.
             files:  [{
                 expand: true,
                 cwd: "views/images",
@@ -80,6 +85,23 @@ module.exports = function(grunt) {
       }
     },
 
+    // use custom extension for the output file
+    compress: {
+      main: {
+        options: {
+          mode: 'gzip'
+        },
+        // Each of the files in the src/ folder will be output to
+        // the dist/ folder each with the extension .gz.js
+        files: [{
+          expand: true,
+          src: ['**/*.html'],
+          dest: '',
+          ext: '.gz.html'
+        }]
+      }
+    },
+
   });
 
 
@@ -90,10 +112,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-responsive-images");
   grunt.loadNpmTasks("grunt-contrib-imagemin");
   grunt.loadNpmTasks("grunt-contrib-htmlmin");
+  grunt.loadNpmTasks("grunt-contrib-compress");
 
   // Default task(s).
   grunt.registerTask("default", ["uglify"]);
   grunt.registerTask("default", ["grunt-responsive-images"]);
   grunt.registerTask("default", ["imagemin"]);
   grunt.registerTask("default", ["htmlmin"]);
+  grunt.registerTask("default", ["compress"]);
 };

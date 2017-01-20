@@ -518,30 +518,17 @@ function updatePositions() {
   // always a value from 0 to 4. So, calculating phase values inside the main
   // loop is a waste of resources. IMO, the best option is making two loops, one
   // for the phases (0 to 4) and the other for the positions (0 to items.length)."
-  // Remove below and replaced with old one b/c line 530 error, unexpected ; 
-  // var phaseArray = [];
-  // for (var i = 0; i < 5; i++) {
-  //   // (JC) Only paint the moving pizzas and not the whole screen as we scroll
-  //   // (JC) Tell browser to put in an indiviudal composite layer (CSS hack, backface-visibility: hidden;)
-  //   phaseArray.push(Math.sin((docbody) + i) * 100);
-  //   // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-  // }
-  // // (JC) Access phase element in the phaseArray
-  // for (var j = 0; max = items.length; j < max; j++) {
-  //   items[j].style.left = items[j].basicLeft + phaseArray[j % 5] + 'px';
-  // }
-
-  phaseArray = [];
-   for (var i = 0; i < 5; i++) {
-     // (JC) Only paint the moving pizzas and not the whole screen as we scroll
-     // (JC) Tell browser to put in an indiviudal composite layer (CSS hack, backface-visibility: hidden;)
-     phaseArray.push(Math.sin((docbody) + (i % 5)));
-     // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-   }
-   // (JC) Access phase element in the phaseArray
-   for (var j = 0; j < items.length; j++) {
-     items[j].style.left = items[j].basicLeft + 100 * phaseArray[(j % 5)] + 'px';
-   }
+  var phaseArray = [];
+  for (var i = 0; i < 5; i++) {
+    // (JC) Only paint the moving pizzas and not the whole screen as we scroll
+    // (JC) Tell browser to put in an indiviudal composite layer (CSS hack, backface-visibility: hidden;)
+    phaseArray.push(Math.sin((docbody) + i) * 100);
+    // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  }
+  // (JC) Access phase element in the phaseArray
+  for (var j = 0, max = items.length; j < max; j++) {
+    items[j].style.left = items[j].basicLeft + phaseArray[j % 5] + 'px';
+  }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
