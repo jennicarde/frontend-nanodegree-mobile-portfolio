@@ -36,7 +36,7 @@ In this part of the project, the challenge is to optimize the pizza website to 6
 1. To view the site, run a local server.
 ```
 $> cd /path/to/your-project-folder
-$> python -m SimpleHTTPServer 8080
+$> python -m SimpleHTTPServer 8000
 ```
 2. Open a browser and visit http://192.168.1.2:8000 or http://127.0.0.1:8000
 3. Inspect the site using Chrome DevTools - On Mac - ⌘ + Shift + I.
